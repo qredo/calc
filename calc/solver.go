@@ -17,6 +17,24 @@ var oprData = map[string]struct {
 	"/": {3, false, func(x, y float64) float64 { return x / y }},
 	"+": {2, false, func(x, y float64) float64 { return x + y }},
 	"-": {2, false, func(x, y float64) float64 { return x - y }},
+	">": {2, false, func(x, y float64) float64 { return b2f(x > y) }},
+	"<": {2, false, func(x, y float64) float64 { return b2f(x < y) }},
+	"&": {2, false, func(x, y float64) float64 { return b2f(f2b(x) && f2b(y)) }},
+	"|": {2, false, func(x, y float64) float64 { return b2f(f2b(x) || f2b(y)) }},
+	//"!": {2, false, func(x, y float64) float64 { return b2f(!f2b(x)) }},
+}
+
+func f2b(f float64) bool {
+	if f == 0 {
+		return false
+	}
+	return true
+}
+func b2f(b bool) float64 {
+	if b == false {
+		return 0
+	}
+	return 1
 }
 
 var funcs = map[string]func(x float64) float64{
@@ -101,4 +119,8 @@ func Solve(s string) float64 {
 	stack = ShuntingYard(stack)
 	answer := SolvePostfix(stack)
 	return answer
+}
+
+func BoolSolve(s string) bool {
+	return f2b(Solve(s))
 }
