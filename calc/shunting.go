@@ -37,7 +37,10 @@ func ShuntingYard(s Stack) Stack {
 			for i := operators.Length() - 1; i >= 0; i-- {
 				if operators.Values[i].Type != LPAREN {
 					postfix.Push(operators.Pop())
-					postfix.Push(unary.Pop())
+
+					if unary.Length() > 0 {
+						postfix.Push(unary.Pop())
+					}
 
 					continue
 				} else {
