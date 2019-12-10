@@ -88,8 +88,7 @@ func Test_Decode2_Bool(t *testing.T) {
 	keys["T3"] = "1"
 	keys["T4"] = "0"
 
-	//rule := "P & C & (T1 + T2 + T3 + T4 > 3)"
-	rule := "1 & (T1 + T2 + T3 + T4 > 10)"
+	rule := "P & C & (T1 + T2 + T3 + T4 > 3)"
 	testString := decode(keys, rule)
 	assert.False(t, BoolSolve(testString), "Bool operation fails")
 }
