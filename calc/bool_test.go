@@ -46,6 +46,7 @@ func Test_Threshold_Bool(t *testing.T) {
 }
 
 func Test_Decode1_Bool(t *testing.T) {
+	//A couple of tests for my specific use case
 	keys := make(map[string]string)
 	keys["P"] = "1"
 	keys["C"] = "1"
@@ -60,6 +61,7 @@ func Test_Decode1_Bool(t *testing.T) {
 	assert.True(t, BoolSolve(testString), "Bool operation fails")
 }
 func Test_Decode2_Bool(t *testing.T) {
+	//A couple of tests for my specific use case
 	keys := make(map[string]string)
 	keys["P"] = "1"
 	keys["C"] = "1"
