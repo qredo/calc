@@ -39,6 +39,8 @@ func (s *Scanner) Scan() Token {
 		return s.ScanWord()
 	} else if IsOperator(ch) {
 		return Token{OPERATOR, string(ch)}
+	} else if IsUnary(ch) {
+		return Token{UNARY, string(ch)}
 	} else if IsWhitespace(ch) {
 		s.Unread()
 		return s.ScanWhitespace()
@@ -132,6 +134,10 @@ func (s *Scanner) ScanWhitespace() Token {
 
 func IsOperator(r rune) bool {
 	return r == '+' || r == '-' || r == '*' || r == '/' || r == '^' || r == '&' || r == '|' || r == '>' || r == '<'
+}
+
+func IsUnary(r rune) bool {
+	return r == '!'
 }
 
 func IsWhitespace(ch rune) bool {

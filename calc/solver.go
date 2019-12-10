@@ -24,6 +24,12 @@ var oprData = map[string]struct {
 	//"!": {2, false, func(x, y float64) float64 { return b2f(!f2b(x)) }},
 }
 
+var unaryData = map[string]struct {
+	fx func(x float64) float64
+}{
+	"!": {func(x float64) float64 { return b2f(!f2b(x)) }},
+}
+
 func f2b(f float64) bool {
 	if f == 0 {
 		return false
@@ -75,13 +81,29 @@ func SolvePostfix(tokens Stack) float64 {
 			if val, ok := consts[v.Value]; ok {
 				stack.Push(Token{NUMBER, strconv.FormatFloat(val, 'f', -1, 64)})
 			}
-		case OPERATOR:
-			f := oprData[v.Value].fx
-			var x, y float64
-			y, _ = strconv.ParseFloat(stack.Pop().Value, 64)
+		case UNARY:
+			//unary invert
+			f := unaryData[v.Value].fx
+			var x float64
 			x, _ = strconv.ParseFloat(stack.Pop().Value, 64)
-			result := f(x, y)
+			result := f(x)
 			stack.Push(Token{NUMBER, strconv.FormatFloat(result, 'f', -1, 64)})
+		case OPERATOR:
+			if v.Value == "!" {
+				//unary invert
+				f := oprData[v.Value].fx
+				var x float64
+				x, _ = strconv.ParseFloat(stack.Pop().Value, 64)
+				result := f(x, 0)
+				stack.Push(Token{NUMBER, strconv.FormatFloat(result, 'f', -1, 64)})
+			} else {
+				f := oprData[v.Value].fx
+				var x, y float64
+				y, _ = strconv.ParseFloat(stack.Pop().Value, 64)
+				x, _ = strconv.ParseFloat(stack.Pop().Value, 64)
+				result := f(x, y)
+				stack.Push(Token{NUMBER, strconv.FormatFloat(result, 'f', -1, 64)})
+			}
 		}
 	}
 	out, _ := strconv.ParseFloat(stack.Values[0].Value, 64)

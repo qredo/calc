@@ -7,6 +7,25 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func Test_Unary_Bool(t *testing.T) {
+	assert.True(t, BoolSolve("!0"), "Bool operation fails")
+	assert.False(t, BoolSolve("!1"), "Bool operation fails")
+	assert.False(t, BoolSolve("!(0 | 1)"), "Bool operation fails")
+	assert.True(t, BoolSolve("!(0 | 0)"), "Bool operation fails")
+	assert.True(t, BoolSolve("(1+1+1+1 > 3)"), "Bool operation fails")
+	assert.False(t, BoolSolve("!(1+1+1+1 > 3)"), "Bool operation fails")
+	assert.True(t, BoolSolve("!0 & !0"), "Bool operation fails")
+	assert.False(t, BoolSolve("!0 & !1"), "Bool operation fails")
+	assert.False(t, BoolSolve("!0 & !1)"), "Bool operation fails")
+	assert.True(t, BoolSolve("1 & !0)"), "Bool operation fails")
+	assert.True(t, BoolSolve("1 & 1 | !(0 & 0 & 0)"), "Bool operation fails")
+	assert.True(t, BoolSolve("1 & 1 | !(1 & 0 & 0)"), "Bool operation fails")
+	assert.True(t, BoolSolve("1 & 1 | !(0 & 1 & 0)"), "Bool operation fails")
+	assert.True(t, BoolSolve("1 & 1 | !(0 & 0 & 1)"), "Bool operation fails")
+	assert.True(t, BoolSolve("1 & 1 | !(!0 & !0 & 1)"), "Bool operation fails")
+	assert.False(t, BoolSolve("1 & 1 | !(!0 & !0 & !1)"), "Bool operation fails")
+}
+
 func Test_And_Bool(t *testing.T) {
 	assert.False(t, BoolSolve("0 & 0"), "Bool operation fails")
 	assert.False(t, BoolSolve("1 & 0"), "Bool operation fails")
